@@ -6,7 +6,7 @@
         "url": "github.com/david-driscoll/axios-rx"
     },
     "description": "RxJs wrapper for axios",
-    "main": "dist/axios-rx.js",
+    "main": "dist/axios-rx.cjs.js",
     "module": "dist/axios-rx.es.js",
     "jsnext:main": "dist/axios-rx.es.js",
     "types": "dist/axios-rx.d.ts",
