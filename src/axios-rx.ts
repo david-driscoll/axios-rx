@@ -24,21 +24,9 @@ export interface RxiosInstance {
     options<T = any>(url: string, config?: AxiosRequestConfig): AxiosObservable<T>;
     delete(url: string, config?: AxiosRequestConfig): AxiosObservable;
     head(url: string, config?: AxiosRequestConfig): AxiosObservable;
-    post<T = any>(
-        url: string,
-        data?: any,
-        config?: AxiosRequestConfig
-    ): AxiosObservable<T>;
-    put<T = any>(
-        url: string,
-        data?: any,
-        config?: AxiosRequestConfig
-    ): AxiosObservable<T>;
-    patch<T = any>(
-        url: string,
-        data?: any,
-        config?: AxiosRequestConfig
-    ): AxiosObservable<T>;
+    post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): AxiosObservable<T>;
+    put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): AxiosObservable<T>;
+    patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): AxiosObservable<T>;
 }
 
 export interface RxiosStatic extends RxiosInstance {
@@ -47,21 +35,24 @@ export interface RxiosStatic extends RxiosInstance {
     create(config?: AxiosRequestConfig): RxiosInstance;
 }
 
-export class AxiosObservable<T = void, R = AxiosResponse<T>> extends Observable<R> {
+export class AxiosObservable<T = void> extends Observable<AxiosResponse<T>> {
     constructor(
-        subscribe?: (this: Observable<R>, subscriber: Subscriber<R>) => TeardownLogic
+        subscribe?: (
+            this: Observable<AxiosResponse<T>>,
+            subscriber: Subscriber<AxiosResponse<T>>
+        ) => TeardownLogic
     ) {
         super(subscribe);
     }
 
     then(
-        onfulfilled?: ((value: R) => R | PromiseLike<R>) | undefined | null,
-        onrejected?:
-            | ((reason: any) => AxiosError | PromiseLike<AxiosError>)
+        onfulfilled?:
+            | ((value: AxiosResponse<T>) => AxiosResponse<T> | PromiseLike<AxiosResponse<T>>)
             | undefined
-            | null
+            | null,
+        onrejected?: ((reason: any) => AxiosError | PromiseLike<AxiosError>) | undefined | null
     ) {
-        return (toPromise.call(this, Promise) as PromiseLike<R>).then<R, AxiosError>(
+        return (toPromise.call(this, Promise) as PromiseLike<AxiosResponse<T>>).then<AxiosResponse<T>, AxiosError>(
             onfulfilled,
             onrejected
         );
@@ -109,10 +100,7 @@ Rxios.prototype.request = rxiosRequest;
 
 function rxios<T = any>(config: AxiosRequestConfig): AxiosObservable<T>;
 function rxios<T = any>(url: string, config?: AxiosRequestConfig): AxiosObservable<T>;
-function rxios<T = any>(
-    configOrUrl: string | AxiosRequestConfig,
-    config?: AxiosRequestConfig
-) {
+function rxios<T = any>(configOrUrl: string | AxiosRequestConfig, config?: AxiosRequestConfig) {
     return rxiosRequest.call(axios, configOrUrl, config);
 }
 
