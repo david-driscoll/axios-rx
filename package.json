@@ -1,0 +1,59 @@
+{
+    "name": "rxios",
+    "version": "0.1.0",
+    "repository": {
+        "type": "git",
+        "url": "github.com/david-driscoll/vue-di"
+    },
+    "description": "RxJs wrapper for axios",
+    "main": "dist/rxios.js",
+    "module": "dist/rxios.es.js",
+    "jsnext:main": "dist/rxios.es.js",
+    "types": "dist/di.d.ts",
+    "scripts": {
+        "prepublish": "npm run test && npm run build",
+        "build": "rollup -c --environment INCLUDE_DEPS,BUILD:production",
+        "test": "mocha",
+        "prettier": "prettier **/*.ts --write",
+        "lint": "tslint -p tsconfig.json --fix"
+    },
+    "author": "",
+    "license": "MIT",
+    "peerDependencies": {
+        "tslib": "^1.8.1",
+    "axios": "^0.17.1",
+    "rxjs": "^5.5.6"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "@types/chai": "^4.0.10",
+        "@types/chai-as-promised": "^7.1.0",
+        "@types/mocha": "^2.2.45",
+        "@types/node": "^8.5.2",
+        "@types/rollup": "^0.51.2",
+        "@types/sinon": "^4.1.2",
+        "@types/sinon-chai": "^2.7.29",
+        "chai": "^4.1.2",
+        "chai-as-promised": "^7.1.1",
+        "jsdom": "^11.5.1",
+        "jsdom-global": "^3.0.2",
+        "mocha": "^4.0.1",
+        "prettier": "^1.9.2",
+        "rollup": "^0.53.2",
+        "rollup-plugin-typescript2": "^0.9.0",
+        "sinon": "^4.1.3",
+        "sinon-chai": "^2.14.0",
+        "ts-node": "^4.1.0",
+
+        "tslib": "^1.8.1",
+    "axios": "^0.17.1",
+    "rxjs": "^5.5.6",
+    "tslint": "^5.8.0",
+        "typescript": "^2.6.2",
+        "vue": "^2.5.13",
+        "vue-class-component": "^6.1.2",
+        "vue-property-decorator": "^6.0.0",
+        "vue-template-compiler": "^2.5.13",
+        "vue-test-utils": "^1.0.0-beta.9"
+    }
+}
