@@ -1,17 +1,17 @@
 import typescript from 'rollup-plugin-typescript2';
 
 export default {
-    input: './src/rxios.ts',
+    input: './src/axios-rx.ts',
     output: [
         {
             name: 'rxios',
-            file: './dist/vue-di.esm.js',
+            file: './dist/axios-rx.esm.js',
             format: 'es',
             sourcemap: true,
         },
         {
             name: 'rxios',
-            file: './dist/vue-di.cjs.js',
+            file: './dist/axios-rx.cjs.js',
             format: 'cjs',
             sourcemap: true,
         },
@@ -22,7 +22,7 @@ export default {
                 compilerOptions: {
                     declaration: true,
                 },
-                include: ["src/**/*.ts"]
+                exclude: ["test/**/*.ts"]
             },
             typescript: require('typescript'),
         }),

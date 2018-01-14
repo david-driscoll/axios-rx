@@ -1,15 +1,15 @@
 {
-    "name": "rxios",
+    "name": "axios-rx",
     "version": "0.1.0",
     "repository": {
         "type": "git",
-        "url": "github.com/david-driscoll/vue-di"
+        "url": "github.com/david-driscoll/axios-rx"
     },
     "description": "RxJs wrapper for axios",
-    "main": "dist/rxios.js",
-    "module": "dist/rxios.es.js",
-    "jsnext:main": "dist/rxios.es.js",
-    "types": "dist/di.d.ts",
+    "main": "dist/axios-rx.js",
+    "module": "dist/axios-rx.es.js",
+    "jsnext:main": "dist/axios-rx.es.js",
+    "types": "dist/axios-rx.d.ts",
     "scripts": {
         "prepublish": "npm run test && npm run build",
         "build": "rollup -c --environment INCLUDE_DEPS,BUILD:production",
@@ -17,12 +17,12 @@
         "prettier": "prettier **/*.ts --write",
         "lint": "tslint -p tsconfig.json --fix"
     },
-    "author": "",
+    "author": "David Driscoll",
     "license": "MIT",
     "peerDependencies": {
         "tslib": "^1.8.1",
-    "axios": "^0.17.1",
-    "rxjs": "^5.5.6"
+        "axios": "^0.17.1",
+        "rxjs": "^5.5.6"
     },
     "dependencies": {},
     "devDependencies": {
@@ -44,16 +44,10 @@
         "sinon": "^4.1.3",
         "sinon-chai": "^2.14.0",
         "ts-node": "^4.1.0",
-
         "tslib": "^1.8.1",
-    "axios": "^0.17.1",
-    "rxjs": "^5.5.6",
-    "tslint": "^5.8.0",
-        "typescript": "^2.6.2",
-        "vue": "^2.5.13",
-        "vue-class-component": "^6.1.2",
-        "vue-property-decorator": "^6.0.0",
-        "vue-template-compiler": "^2.5.13",
-        "vue-test-utils": "^1.0.0-beta.9"
+        "axios": "^0.17.1",
+        "rxjs": "^5.5.6",
+        "tslint": "^5.8.0",
+        "typescript": "^2.6.2"
     }
 }

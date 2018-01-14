@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { timer } from 'rxjs/observable/timer';
 import * as sinon from 'sinon';
-import rxios, { AxiosObservable, RxiosInstance } from '../src/rxios';
+import rxios, { AxiosObservable, RxiosInstance } from '../src/axios-rx';
 
 describe('axios-rx', () => {
     it('should call the request as expected', done => {
