@@ -1,9 +1,6 @@
 import { AxiosAdapter, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { expect } from 'chai';
-import 'rxjs/add/operator/toPromise';
-import { Observable } from 'rxjs/Observable';
-import { forkJoin } from 'rxjs/observable/forkJoin';
-import { timer } from 'rxjs/observable/timer';
+import { forkJoin, Observable, timer } from 'rxjs';
 import * as sinon from 'sinon';
 import rxios, { AxiosObservable, RxiosInstance } from '../src/axios-rx';
 

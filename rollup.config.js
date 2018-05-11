@@ -20,9 +20,10 @@ export default {
         typescript({
             tsconfigOverride: {
                 compilerOptions: {
+                    module: 'es2015',
                     declaration: true,
                 },
-                exclude: ["test/**/*.ts"]
+                exclude: ['test/**/*.ts'],
             },
             typescript: require('typescript'),
         }),
