@@ -20,9 +20,9 @@
     "author": "David Driscoll",
     "license": "MIT",
     "peerDependencies": {
-        "tslib": "^1.8.1",
-        "axios": "^0.17.1",
-        "rxjs": "^5.5.6"
+        "tslib": "^1.9.0",
+        "axios": "^0.18.0",
+        "rxjs": "^6.1.0"
     },
     "dependencies": {},
     "devDependencies": {
