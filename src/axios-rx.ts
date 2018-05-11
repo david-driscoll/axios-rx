@@ -6,11 +6,7 @@ import axios, {
     AxiosRequestConfig,
     AxiosResponse,
 } from 'axios';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import { toPromise } from 'rxjs/operator/toPromise';
-import { Subscriber } from 'rxjs/Subscriber';
-import { TeardownLogic } from 'rxjs/Subscription';
+import { Observable, Observer, Subscriber, TeardownLogic } from 'rxjs';
 const Axios = (axios as any).Axios;
 
 export interface RxiosInstance {
@@ -52,7 +48,7 @@ export class AxiosObservable<T = void> extends Observable<AxiosResponse<T>> {
             | null,
         onrejected?: ((reason: any) => AxiosError | PromiseLike<AxiosError>) | undefined | null
     ) {
-        return (toPromise.call(this, Promise) as PromiseLike<AxiosResponse<T>>).then<AxiosResponse<T>, AxiosError>(
+        return (this.toPromise(Promise) as PromiseLike<AxiosResponse<T>>).then<AxiosResponse<T>, AxiosError>(
             onfulfilled,
             onrejected
         );
