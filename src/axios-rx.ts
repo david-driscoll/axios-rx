@@ -31,7 +31,7 @@ export interface RxiosStatic extends RxiosInstance {
     create(config?: AxiosRequestConfig): RxiosInstance;
 }
 
-export class AxiosObservable<T = void> extends Observable<AxiosResponse<T>> {
+export class AxiosObservable<T = any> extends Observable<AxiosResponse<T>> {
     public constructor(
         subscribe?: (
             this: Observable<AxiosResponse<T>>,
@@ -48,10 +48,10 @@ export class AxiosObservable<T = void> extends Observable<AxiosResponse<T>> {
             | null,
         onrejected?: ((reason: any) => AxiosError | PromiseLike<AxiosError>) | undefined | null
     ) {
-        return (this.toPromise() as PromiseLike<AxiosResponse<T>>).then<AxiosResponse<T>, AxiosError>(
-            onfulfilled,
-            onrejected
-        );
+        return (this.toPromise() as PromiseLike<AxiosResponse<T>>).then<
+            AxiosResponse<T>,
+            AxiosError
+        >(onfulfilled, onrejected);
     }
 }
 
@@ -71,21 +71,40 @@ function complete<T>(promise: AxiosPromise<T>, observer: Observer<AxiosResponse<
     );
 }
 
-const axiosRequest = Axios.prototype.request;
+const axiosRequest: AxiosInstance['request'] = Axios.prototype.request;
 
-export const rxiosRequest = function<T = any>(
-    this: AxiosInstance,
-    config: AxiosRequestConfig
+export function rxiosRequest<T = any>(config: AxiosRequestConfig): AxiosObservable<T>;
+export function rxiosRequest<T = any>(url: string, config?: AxiosRequestConfig): AxiosObservable<T>;
+export function rxiosRequest<T = any>(
+    this: RxiosInstance,
+    configOrUrl: string | AxiosRequestConfig,
+    config?: AxiosRequestConfig
 ): AxiosObservable<T> {
+    if (!config) config = {};
+    if (typeof configOrUrl === 'string') {
+        config.url = configOrUrl;
+    } else {
+        config = configOrUrl;
+    }
     return new AxiosObservable<T>(observer => {
         const source = axios.CancelToken.source();
         const cancelToken = source.token;
+        if (config && config.cancelToken) {
+            config.cancelToken.promise.then(x => source.cancel());
+            config.cancelToken = cancelToken;
+        }
 
-        complete(axiosRequest.call(this, { ...config, cancelToken }), observer);
+        complete<T>(
+            axiosRequest.call<AxiosInstance, [AxiosRequestConfig], AxiosPromise<T>>(
+                this as any,
+                config!
+            ),
+            observer
+        );
 
         return () => source.cancel();
     });
-};
+}
 
 function Rxios<T = any>(this: any, instanceConfig: AxiosRequestConfig) {
     Axios.call(this, instanceConfig);
@@ -94,13 +113,20 @@ function Rxios<T = any>(this: any, instanceConfig: AxiosRequestConfig) {
 Object.assign(Rxios.prototype, Axios.prototype);
 Rxios.prototype.request = rxiosRequest;
 
-function rxios<T = any>(config: AxiosRequestConfig): AxiosObservable<T>;
-function rxios<T = any>(url: string, config?: AxiosRequestConfig): AxiosObservable<T>;
-function rxios<T = any>(configOrUrl: string | AxiosRequestConfig, config?: AxiosRequestConfig) {
-    return rxiosRequest.call(axios, configOrUrl, config);
-}
+const rxios = (() => {
+    function rxios<T = any>(config: AxiosRequestConfig): AxiosObservable<T>;
+    function rxios<T = any>(url: string, config?: AxiosRequestConfig): AxiosObservable<T>;
+    function rxios<T = any>(
+        configOrUrl: string | AxiosRequestConfig,
+        config?: AxiosRequestConfig
+    ): AxiosObservable<T> {
+        return rxiosRequest.call(rxios as any, configOrUrl as any, config) as any;
+    }
+    Object.assign(rxios, Rxios.prototype);
+    rxios.defaults = { ...axios.defaults };
+    rxios.interceptors = { request: [], response: [] };
+    (rxios as any).create = (config?: AxiosRequestConfig) => new (Rxios as any)(config || {});
+    return rxios as any as RxiosStatic;
+})();
 
-Object.assign(rxios, Rxios.prototype);
-(rxios as any).create = (config?: AxiosRequestConfig) => new (Rxios as any)(config || {});
-
-export default rxios as RxiosStatic;
+export default rxios;
