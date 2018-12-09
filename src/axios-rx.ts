@@ -32,7 +32,7 @@ export interface RxiosStatic extends RxiosInstance {
 }
 
 export class AxiosObservable<T = void> extends Observable<AxiosResponse<T>> {
-    constructor(
+    public constructor(
         subscribe?: (
             this: Observable<AxiosResponse<T>>,
             subscriber: Subscriber<AxiosResponse<T>>
@@ -41,14 +41,14 @@ export class AxiosObservable<T = void> extends Observable<AxiosResponse<T>> {
         super(subscribe);
     }
 
-    then(
+    public then(
         onfulfilled?:
             | ((value: AxiosResponse<T>) => AxiosResponse<T> | PromiseLike<AxiosResponse<T>>)
             | undefined
             | null,
         onrejected?: ((reason: any) => AxiosError | PromiseLike<AxiosError>) | undefined | null
     ) {
-        return (this.toPromise(Promise) as PromiseLike<AxiosResponse<T>>).then<AxiosResponse<T>, AxiosError>(
+        return (this.toPromise() as PromiseLike<AxiosResponse<T>>).then<AxiosResponse<T>, AxiosError>(
             onfulfilled,
             onrejected
         );
